@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+<p>Prova Body</p>
+{% for blog_post in blog_posts %}
+    <h2>{{ blog_post.title }}</h2>
+    <p>{{ blog_post.text }}</p>
+    <b>{{ blog_post.user.first_name }}</b>
+    <i>{{ blog_post.date_time }}</i>
+{% endfor %}
+</body>
+</html>
