@@ -12,5 +12,33 @@
     <b>{{ blog_post.user.first_name }}</b>
     <i>{{ blog_post.date_time }}</i>
 {% endfor %}
+
+<script>
+    const xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === 4) {
+            console.log(xmlhttp.status);
+            console.log(xmlhttp.responseText)
+        }
+    }
+
+    function post() {
+        let fd = new FormData();
+        xmlhttp.open("post", "/prova/test", true);
+        xmlhttp.send(fd);
+    }
+
+    function put() {
+        let fd = new FormData();
+        xmlhttp.open("put", "/prova/test", true);
+        xmlhttp.send(fd);
+    }
+
+    function del() {
+        let fd = new FormData();
+        xmlhttp.open("delete", "/prova/test", true);
+        xmlhttp.send(fd);
+    }
+</script>
 </body>
 </html>
