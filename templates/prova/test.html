@@ -33,14 +33,14 @@
     function put() {
         let fd = new FormData();
         fd.append('csrfmiddlewaretoken', document.getElementsByName('csrfmiddlewaretoken')[0].value);
-        xmlhttp.open("put", "/prova/test", true);
+        xmlhttp.open("put", "/prova/test/1/", true);
         xmlhttp.send(fd);
     }
 
     function del() {
         let fd = new FormData();
         fd.append('csrfmiddlewaretoken', document.getElementsByName('csrfmiddlewaretoken')[0].value);
-        xmlhttp.open("delete", "/prova/test", true);
+        xmlhttp.open("delete", "/prova/test/1/", true);
         xmlhttp.send(fd);
     }
 </script>

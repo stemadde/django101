@@ -3,7 +3,7 @@ from django.shortcuts import render
 from prova import crud
 
 
-def test_view(request):
+def test_view(request, post_id):
     if request.user.is_authenticated:
         if request.method == 'GET':
             blog_posts = crud.get_blog_posts(request.user)
@@ -15,13 +15,13 @@ def test_view(request):
             bp = crud.create_blog_post('Ciao', 'TESTO', request.user, 'FFFFFF')
             return HttpResponse(bp)
         elif request.method == 'PUT':
-            bp = crud.updated_blog_post(request.user, 1, title='Mod', text='Alter', color='CCCCCC')
+            bp = crud.updated_blog_post(request.user, post_id, title='Mod', text='Alter', color='CCCCCC')
             if bp:
                 return HttpResponse(bp)
             else:
                 return HttpResponse('Object not found', status=404)
         elif request.method == 'DELETE':
-            code = crud.delete_blog_post(request.user, 1)
+            code = crud.delete_blog_post(request.user, post_id)
             return HttpResponse(status=code)
         else:
             return HttpResponse('Metodo non consentito', status=405)
