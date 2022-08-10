@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from prova import crud
+from prova.forms import BlogPostForm
 
 
 def test_view(request, post_id):
@@ -10,6 +11,7 @@ def test_view(request, post_id):
             return render(request, 'prova/test.html', {
                 'title': 'Pippo',
                 'blog_posts': blog_posts,
+                'blog_form': BlogPostForm(),
             })
         elif request.method == 'POST':
             bp = crud.create_blog_post('Ciao', 'TESTO', request.user, 'FFFFFF')

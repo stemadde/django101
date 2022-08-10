@@ -16,12 +16,12 @@ class BlogPost(models.Model):
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         # On creation of the element calculate the hash of the title and store it in hash attribute
         # TODO: Fai attenzione nel calcolare l'hash, deve essere fatto solo sulla creazione e non a fronte di modifica
-        pass
+        super(BlogPost, self).save(force_insert, force_update, using, update_fields)
 
     def delete(self, using=None, keep_parents=False):
         # Make delete work
         # Codice
-        super(BlogPost, self).delete(using=using, keep_parents=keep_parents)
+        super(BlogPost, self).delete(using, keep_parents)
 
 
 class BlogPostComment(models.Model):
