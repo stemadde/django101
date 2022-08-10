@@ -6,6 +6,7 @@
 </head>
 <body>
 <p>Prova Body</p>
+{% csrf_token %}
 {% for blog_post in blog_posts %}
     <h2>{{ blog_post.title }}</h2>
     <p>{{ blog_post.text }}</p>
@@ -24,18 +25,21 @@
 
     function post() {
         let fd = new FormData();
+        fd.append('csrfmiddlewaretoken', document.getElementsByName('csrfmiddlewaretoken')[0].value);
         xmlhttp.open("post", "/prova/test", true);
         xmlhttp.send(fd);
     }
 
     function put() {
         let fd = new FormData();
+        fd.append('csrfmiddlewaretoken', document.getElementsByName('csrfmiddlewaretoken')[0].value);
         xmlhttp.open("put", "/prova/test", true);
         xmlhttp.send(fd);
     }
 
     function del() {
         let fd = new FormData();
+        fd.append('csrfmiddlewaretoken', document.getElementsByName('csrfmiddlewaretoken')[0].value);
         xmlhttp.open("delete", "/prova/test", true);
         xmlhttp.send(fd);
     }
