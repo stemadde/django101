@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+<p>Commenti del post numero {{ post_id }}</p>
+{% csrf_token %}
+{% for comment in comments %}
+    <h2>{{ comment.subtitle }}</h2>
+    <p>{{ comment.text }}</p>
+    <b>{{ comment.user.first_name }}</b>
+    <i>{{ comment.date_time }}</i>
+{% endfor %}
+</body>
+</html>

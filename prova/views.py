@@ -29,3 +29,29 @@ def test_view(request, post_id):
             return HttpResponse('Metodo non consentito', status=405)
     else:
         return HttpResponse('Accedi per visualizzare il contenuto', status=403)
+
+
+def commentView(request, post_id):
+    if request.user.is_authenticated:
+        if request.method == 'GET':
+            comments = crud.get_all_comments(post_id)
+            return render(request, 'prova/comment.html', {
+                'title': 'Commenti',
+                'comments': comments
+            })
+        elif request.method == 'POST':
+            comment = crud.create_comment(1, "primo commento", "questo è il testo del primo commento")
+            if comment:
+                return HttpResponse(comment)
+            else:
+                return HttpResponse("Comment not found", status=404)
+        elif request.method == 'PUT':
+            comment = crud.update_comment(request.user, 1, 1, text="Questo testo è stato modificato")
+            if comment:
+                return HttpResponse(comment)
+            else:
+                return HttpResponse("Comment not found", status=404)
+        elif request.method == 'DELETE':
+            return HttpResponse(status=crud.delete_comment(request.user, 1, 1))
+    else:
+        HttpResponse('Accedi per visualizzare i commenti', status=403)
