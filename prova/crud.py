@@ -36,7 +36,9 @@ def delete_blog_post(user: User, post_id: int) -> int:
 def updated_blog_post(user: User, post_id: int, **kwargs) -> Optional[BlogPost]:
     bp = BlogPost.objects.filter(user=user, id=post_id).first()
     if bp:
-        bp.save(**kwargs)
+        for key, value in kwargs:
+            setattr(bp, key, value)
+        bp.save()
         return bp
 
 #CRUD for comments
@@ -95,6 +97,8 @@ def delete_comment(user : User, post_id : int, commentId : int):
 def update_comment(user : User, post_id: int, commentId: int, **kwargs) -> Optional[BlogPostComment]:
     bpc = get_comment(user,post_id,commentId)
     if bpc:
-        return bpc.save(**kwargs)
+        for key, value in kwargs:
+            setattr(bpc, key, value)
+        return bpc.save()
 
 #ALL IS TO BE TESTED
