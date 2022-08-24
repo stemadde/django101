@@ -18,7 +18,7 @@ class BlogPost(models.Model):
         # TODO: Fai attenzione nel calcolare l'hash, deve essere fatto solo sulla creazione e non a fronte di modifica
         # Should work, gonna test later
         if self.hash is None:
-            self.hash = hashlib.md5(bytes(self.title)).hexdigest()
+            self.hash = hashlib.md5(bytes(self.title, encoding='utf-8')).hexdigest()
         super(BlogPost, self).save(force_insert, force_update, using, update_fields)
 
     def delete(self, using=None, keep_parents=False):

@@ -101,4 +101,20 @@ def update_comment(user : User, post_id: int, commentId: int, **kwargs) -> Optio
             setattr(bpc, key, value)
         return bpc.save()
 
+
+def update_user(user:User, **kwargs):
+    if user:
+        for key, value in kwargs.items():
+            setattr(user, key, value)
+        return user.save()
+
+
+def delete_user(user:User):
+    try:
+        user.delete()
+        return 204
+    except AttributeError:
+        return 504
+    except ValueError:
+        return 504
 #ALL IS TO BE TESTED
