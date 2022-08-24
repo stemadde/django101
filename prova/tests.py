@@ -59,3 +59,37 @@ class databaseTesting(TestCase):
         updated_blog_post(self.User2, 2, title='amarodelcapo').save()
         self.assertEqual(get_blog_post(self.User1, 1).title, 'amarolucano')
         self.assertEqual(get_blog_post(self.User2, 2).title, 'amarodelcapo')
+
+    # User updating works
+    def test_update_user(self):
+        update_user(self.User1, first_name="jackdaniels")
+        self.assertEqual(self.User1.first_name, "jackdaniels")
+        update_user(self.User1, first_name="Giovanni")
+
+    # Comment creation works
+    def test_create_comment(self):
+        self.test_creation()
+        create_comment(get_blog_post(self.User1, 1), "bel commento", "testo spettacolare", self.User1)
+        self.assertEqual(get_comment(self.User1, get_blog_post(self.User1, 1), 1).subtitle, "bel commento")
+        self.assertEqual(get_comment(self.User1, get_blog_post(self.User1, 1), 1).text, "testo spettacolare")
+
+    # Comment deletion works
+    def test_delete_comment(self):
+        self.test_creation()
+        create_comment(get_blog_post(self.User1, 1), "bel commento", "testo spettacolare", self.User1)
+        self.assertEqual(delete_comment(self.User1, get_blog_post(self.User1, 1), 1),204)
+
+        self.assertEqual(get_comment(self.User1, get_blog_post(self.User1, 1), 1), None)
+
+    # Comment update works
+    def test_comment_update(self):
+        self.test_create_comment()
+        update_comment(self.User1, get_blog_post(self.User1, 1), 1, text="testo un po' meno spettacolare")
+        self.assertEqual(get_comment(self.User1, get_blog_post(self.User1, 1), 1).text, "testo un po' meno spettacolare")
+
+    # Cascade deletion works
+    def test_blogpost_cascade_deletion(self):
+        self.test_creation()
+        self.test_create_comment()
+        delete_blog_post(self.User1, 1)
+        self.assertEqual(get_blog_post(self.User1, 1), None)

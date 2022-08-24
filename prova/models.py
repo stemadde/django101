@@ -24,7 +24,7 @@ class BlogPost(models.Model):
     def delete(self, using=None, keep_parents=False):
         # Make delete work  ok :) -Daniele
         # .all() is redudant, but at least i'm 100% i'm working on a qset and not on some weird object
-        BlogPostComment.objects.filter(blog_post=self.pk).all().delete()
+        BlogPostComment.objects.filter(blog_post=self).all().delete()
         super(BlogPost, self).delete(using, keep_parents)
 
 

@@ -72,21 +72,21 @@ def get_comments(user:User, post_id: int) -> Optional[dict]:
     return returnDict
 
 
-def get_comment(user:User, post_id:int, commentId: int) ->Optional[BlogPostComment]:
+def get_comment(user:User, post : BlogPost, commentId: int) ->Optional[BlogPostComment]:
     return BlogPostComment.objects.filter(
-        blogpost=post_id,
+        blog_post=post,
         id=commentId,
         user=user
     ).first()
 
 
-def create_comment(blog_post : int, subtitle : str, text : str) -> BlogPostComment:
-    return BlogPostComment.objects.create(blog_post=blog_post, subtitle=subtitle, text=text)
+def create_comment(blog_post : BlogPost, subtitle : str, text : str, user: User) -> BlogPostComment:
+    return BlogPostComment.objects.create(blog_post=blog_post, subtitle=subtitle, text=text, user=user)
 
 
-def delete_comment(user : User, post_id : int, commentId : int):
+def delete_comment(user : User, post : BlogPost, commentId : int):
     try:
-        BlogPostComment.objects.filter(user=user, blogpost=post_id, id=commentId).first().delete()
+        BlogPostComment.objects.filter(user=user, blog_post=post, id=commentId).first().delete()
         return 204
     except AttributeError:
         return 404
@@ -94,8 +94,8 @@ def delete_comment(user : User, post_id : int, commentId : int):
         return 404
 
 
-def update_comment(user : User, post_id: int, commentId: int, **kwargs) -> Optional[BlogPostComment]:
-    bpc = get_comment(user,post_id,commentId)
+def update_comment(user : User, post: BlogPost, commentId: int, **kwargs) -> Optional[BlogPostComment]:
+    bpc = get_comment(user,post,commentId)
     if bpc:
         for key, value in kwargs.items():
             setattr(bpc, key, value)
