@@ -13,5 +13,15 @@
     <b>{{ comment.user.first_name }}</b>
     <i>{{ comment.date_time }}</i>
 {% endfor %}
+
+<script>
+    const xmlhttp = new XMLHttpRequest()
+    xmlhttp.onreadystatechange = function(){
+        if (xmlhttp.readyState === 4){
+            console.log(xmlhttp.status)
+            console.log(xmlhttp.responseText)
+        }
+    }
+</script>
 </body>
 </html>

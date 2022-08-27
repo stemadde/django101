@@ -1,3 +1,5 @@
+import json
+
 from django.http import HttpResponse
 from django.shortcuts import render
 from prova import crud
@@ -9,15 +11,17 @@ def test_view(request, post_id):
         if request.method == 'GET':
             blog_posts = crud.get_blog_posts(request.user)
             return render(request, 'prova/test.html', {
-                'title': 'Pippo',
+                'title': "Blogposts di " + request.user.username,
                 'blog_posts': blog_posts,
                 'blog_form': BlogPostForm(),
             })
         elif request.method == 'POST':
-            bp = crud.create_blog_post('Ciao', 'TESTO', request.user, 'FFFFFF')
+            body = json.loads(request.body)
+            bp = crud.create_blog_post(body['title'], body['text'], request.user, body['color'])
             return HttpResponse(bp)
         elif request.method == 'PUT':
-            bp = crud.updated_blog_post(request.user, post_id, title='Mod', text='Alter', color='CCCCCC')
+            body = json.loads(request.body)
+            bp = crud.updated_blog_post(request.user, post_id, **body)
             if bp:
                 return HttpResponse(bp)
             else:
@@ -40,13 +44,19 @@ def commentView(request, post_id):
                 'comments': comments
             })
         elif request.method == 'POST':
-            comment = crud.create_comment(1, "primo commento", "questo è il testo del primo commento")
+            body = json.loads(request.body)
+            comment = crud.create_comment(body['blogpost'], body['subtitle'], body['text'], request.user)
             if comment:
                 return HttpResponse(comment)
             else:
                 return HttpResponse("Comment not found", status=404)
         elif request.method == 'PUT':
-            comment = crud.update_comment(request.user, 1, 1, text="Questo testo è stato modificato")
+            body = json.loads(request.body)
+            post = body['blogpost']
+            commentId = body['commentId']
+            del body['blogpost']
+            del body['commentId']
+            comment = crud.update_comment(request.user, post, commentId, **body)
             if comment:
                 return HttpResponse(comment)
             else:

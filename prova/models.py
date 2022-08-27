@@ -15,7 +15,7 @@ class BlogPost(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         # On creation of the element calculate the hash of the title and store it in hash attribute
-        # TODO: Fai attenzione nel calcolare l'hash, deve essere fatto solo sulla creazione e non a fronte di modifica
+        # DONE: Fai attenzione nel calcolare l'hash, deve essere fatto solo sulla creazione e non a fronte di modifica
         # Should work, gonna test later
         if self.hash is None:
             self.hash = hashlib.md5(bytes(self.title, encoding='utf-8')).hexdigest()
